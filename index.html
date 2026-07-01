@@ -1,424 +1,882 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Institute of Digital Risk</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-scroll-behavior:smooth;
+:root{
+  --bg:#0a0e16;
+  --bg-elevated:#10151f;
+  --bg-card:#131a26;
+  --line:rgba(255,255,255,0.08);
+  --line-bright:rgba(255,255,255,0.16);
+  --text:#eef1f6;
+  --text-dim:#8993a6;
+  --text-faint:#5b6376;
+  --accent:#ff7a3d;
+  --accent-soft:rgba(255,122,61,0.14);
+  --signal:#3ddc97;
+  --signal-soft:rgba(61,220,151,0.14);
+  --radius:10px;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
 }
 
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
-background:#e9edf2;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.65;
+  overflow-x:hidden;
 }
-.wrapper{
-max-width:1200px;
-margin:auto;
-background:white;
-box-shadow:0 10px 40px rgba(0,0,0,0.1);
+
+::selection{background:var(--accent);color:#0a0e16;}
+
+a{color:inherit;}
+
+.wrapper{max-width:1280px;margin:auto;}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
 }
+.eyebrow::before{
+  content:"";
+  width:6px;height:6px;border-radius:50%;
+  background:var(--signal);
+  box-shadow:0 0 0 0 rgba(61,220,151,0.6);
+  animation:pulseDot 2s infinite;
+}
+@keyframes pulseDot{
+  0%{box-shadow:0 0 0 0 rgba(61,220,151,0.55);}
+  70%{box-shadow:0 0 0 8px rgba(61,220,151,0);}
+  100%{box-shadow:0 0 0 0 rgba(61,220,151,0);}
+}
+
+h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+
+h2.section-title{
+  font-size:34px;
+  margin-bottom:8px;
+}
+.section-kicker{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:42px;
+  flex-wrap:wrap;
+  gap:16px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:24px;
+}
+.section-kicker p{color:var(--text-dim);max-width:420px;font-size:15px;}
+
+section{padding:96px 8%;position:relative;}
 
 header{
-position:sticky;
-top:0;
-background:white;
-border-bottom:1px solid #eee;
-z-index:1000;
+  position:sticky;top:0;z-index:1000;
+  background:rgba(10,14,22,0.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
 }
-
 nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 8%;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 8%;
+  max-width:1280px;margin:auto;
 }
-
 .logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:600;
-font-size:20px;
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--font-display);
+  font-weight:600;font-size:18px;
+  letter-spacing:-0.01em;
 }
-.cube{
-width:24px;
-height:24px;
-background:linear-gradient(135deg,#ff7a00,#ffb347);
-transform:rotate(45deg);
-animation:float 3s infinite ease-in-out;
+.radar-mark{
+  position:relative;
+  width:30px;height:30px;
+  border-radius:50%;
+  border:1.5px solid var(--line-bright);
+  display:flex;align-items:center;justify-content:center;
+}
+.radar-mark::before{
+  content:"";
+  position:absolute;inset:0;
+  border-radius:50%;
+  background:conic-gradient(from 0deg, var(--accent), transparent 35%);
+  animation:spin 3.5s linear infinite;
+  -webkit-mask:radial-gradient(circle, transparent 55%, black 56%);
+  mask:radial-gradient(circle, transparent 55%, black 56%);
+}
+.radar-mark span{
+  width:4px;height:4px;border-radius:50%;background:var(--signal);
+  z-index:1;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+nav ul{display:flex;gap:32px;list-style:none;align-items:center;}
+nav ul a{
+  text-decoration:none;color:var(--text-dim);font-size:14px;font-weight:500;
+  position:relative;padding-bottom:4px;transition:color .2s;
+}
+nav ul a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;
+  background:var(--accent);transition:width .25s ease;
+}
+nav ul a:hover{color:var(--text);}
+nav ul a.active{color:var(--text);}
+nav ul a.active::after{width:100%;}
+
+.nav-cta{
+  font-family:var(--font-mono);font-size:13px;
+  background:var(--accent);color:#0a0e16;
+  padding:9px 18px;border-radius:6px;
+  text-decoration:none;font-weight:600;
 }
 
-@keyframes float{
-
-0%{transform:rotate(45deg) translateY(0)}
-50%{transform:rotate(45deg) translateY(-5px)}
-100%{transform:rotate(45deg) translateY(0)}
-
+.menu-toggle{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:4px;
 }
-
-nav ul{
-display:flex;
-gap:25px;
-list-style:none;
-}
-
-nav a{
-text-decoration:none;
-color:#333;
-font-weight:500;
-}
-
-nav a:hover{
-color:#ff7a00;
-}
+.menu-toggle span{width:22px;height:2px;background:var(--text);transition:.25s;}
 
 .hero{
-height:80vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-background:
-linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),
-url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b");
-background-size:cover;
-background-position:center;
+  min-height:88vh;
+  display:flex;align-items:center;
+  padding:140px 8% 80px;
+  position:relative;
+  background:
+    radial-gradient(ellipse at 75% 20%, rgba(255,122,61,0.14), transparent 55%),
+    radial-gradient(ellipse at 15% 80%, rgba(61,220,151,0.08), transparent 50%),
+    var(--bg);
+  overflow:hidden;
 }
-
-.hero h1{
-font-size:52px;
-font-weight:700;
-background:linear-gradient(90deg,#ff7a00,#ffb347);
--webkit-background-clip:text;
-color:transparent;
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom, black, transparent 75%);
+  pointer-events:none;
 }
-
-.hero p{
-margin-top:15px;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-color:white;
+.hero-inner{
+  display:flex;gap:60px;align-items:center;
+  width:100%;position:relative;z-index:1;
+  flex-wrap:wrap;
 }
+.hero-copy{flex:1;min-width:320px;}
+.hero-copy h1{
+  font-size:54px;line-height:1.08;margin:18px 0 22px;
+}
+.hero-copy h1 .accent{color:var(--accent);}
+.hero-copy p{color:var(--text-dim);font-size:17px;max-width:480px;margin-bottom:32px;}
 
+.typewriter-line{
+  font-family:var(--font-mono);font-size:14px;color:var(--signal);
+  margin-bottom:18px;display:flex;align-items:center;min-height:20px;
+}
+.typewriter-line .cursor{
+  display:inline-block;width:8px;height:16px;background:var(--signal);
+  margin-left:2px;animation:blink 1s step-start infinite;
+}
+@keyframes blink{50%{opacity:0;}}
+
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
 .btn{
-display:inline-block;
-margin-top:20px;
-background:#ff7a00;
-color:white;
-padding:12px 25px;
-border-radius:6px;
-text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 26px;border-radius:7px;
+  text-decoration:none;font-weight:600;font-size:14.5px;
+  transition:transform .2s, box-shadow .2s;
+  border:1px solid transparent;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--accent);color:#0a0e16;}
+.btn-primary:hover{box-shadow:0 10px 30px -8px rgba(255,122,61,0.55);}
+.btn-ghost{border-color:var(--line-bright);color:var(--text);}
+.btn-ghost:hover{border-color:var(--accent);}
+
+.marquee{
+  margin-top:46px;border-top:1px solid var(--line);padding-top:18px;
+  overflow:hidden;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track{
+  display:inline-flex;gap:40px;
+  animation:scrollMarquee 22s linear infinite;
+}
+.marquee span{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.08em;
+  color:var(--text-faint);text-transform:uppercase;
+}
+@keyframes scrollMarquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
 }
 
-section{
-padding:70px 8%;
+.radar-panel{
+  flex:0 0 360px;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;
+}
+.panel-head .live{
+  color:var(--signal);display:flex;align-items:center;gap:6px;
+}
+.panel-head .live::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--signal);
+  animation:pulseDot 2s infinite;
+}
+.radar-scope{
+  position:relative;width:100%;aspect-ratio:1/1;border-radius:50%;
+  background:radial-gradient(circle, rgba(61,220,151,0.06), transparent 70%);
+  border:1px solid var(--line-bright);
+  overflow:hidden;
+}
+.radar-scope::before, .radar-scope::after{
+  content:"";position:absolute;border:1px solid rgba(255,255,255,0.06);border-radius:50%;
+}
+.radar-scope::before{inset:18%;}
+.radar-scope::after{inset:36%;}
+.radar-sweep{
+  position:absolute;inset:0;
+  background:conic-gradient(from 0deg, rgba(61,220,151,0.45), transparent 28%);
+  animation:spin 4s linear infinite;
+  border-radius:50%;
+}
+.blip{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 8px 1px rgba(255,122,61,0.8);
+  animation:blipFade 3s ease-in-out infinite;
+}
+@keyframes blipFade{0%,100%{opacity:.2;}50%{opacity:1;}}
+
+.panel-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;
+}
+.panel-stat{
+  border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+}
+.panel-stat .num{
+  font-family:var(--font-mono);font-size:20px;color:var(--text);font-weight:600;
+}
+.panel-stat .lbl{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
+
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.stat-cell{
+  padding:38px 8%;text-align:center;border-right:1px solid var(--line);
+}
+.stat-cell:last-child{border-right:none;}
+.stat-cell .count{
+  font-family:var(--font-display);font-size:38px;font-weight:700;color:var(--accent);
+}
+.stat-cell .label{
+  font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.08em;margin-top:6px;
 }
 
-h2{
-text-align:center;
-margin-bottom:30px;
-}
 
-.about{
-display:flex;
-gap:40px;
-align-items:center;
-flex-wrap:wrap;
+.about{display:flex;gap:56px;align-items:center;flex-wrap:wrap;}
+.about-media{position:relative;flex:0 0 420px;}
+.about-media img{
+  width:100%;display:block;border-radius:4px;filter:grayscale(35%) contrast(1.05);
 }
+.frame-corner{
+  position:absolute;width:26px;height:26px;border-color:var(--accent);border-style:solid;
+}
+.fc-tl{top:-10px;left:-10px;border-width:2px 0 0 2px;}
+.fc-br{bottom:-10px;right:-10px;border-width:0 2px 2px 0;}
+.about-copy{flex:1;min-width:300px;}
+.about-copy p{color:var(--text-dim);margin-bottom:16px;font-size:15.5px;}
+.about-copy p strong{color:var(--text);font-weight:600;}
 
-.about img{
-width:380px;
-border-radius:10px;
-}
 
-.about div{
-flex:1;
-line-height:1.7;
-}
-.cards{
-display:flex;
-gap:25px;
-flex-wrap:wrap;
-justify-content:center;
-}
-
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .card{
-background:#f8f8f8;
-padding:30px;
-width:280px;
-border-radius:10px;
-text-align:center;
+  background:var(--bg-card);border:1px solid var(--line);border-radius:12px;
+  padding:30px;transition:transform .25s, border-color .25s, box-shadow .25s;
 }
-
-.card img{
-width:55px;
-margin-bottom:10px;
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,122,61,0.4);
+  box-shadow:0 20px 40px -20px rgba(0,0,0,0.6);
 }
-
-.pipeline{
-margin-top:40px;
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
+.card .icon{
+  width:44px;height:44px;border-radius:8px;background:var(--accent-soft);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  color:var(--accent);
 }
+.card h3{font-size:18px;margin-bottom:8px;}
+.card p{color:var(--text-dim);font-size:14.5px;}
 
-.step{
-background:#ff7a00;
-color:white;
-padding:12px 25px;
-border-radius:6px;
-font-weight:600;
+.pipeline-wrap{position:relative;margin-top:10px;padding:30px 0 10px;}
+.pipeline-track{
+  position:relative;display:flex;justify-content:space-between;
+  max-width:760px;margin:auto;
 }
-
-.fac-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.pipeline-track::before{
+  content:"";position:absolute;top:11px;left:0;right:0;height:2px;
+  background:var(--line);
 }
+.pipeline-fill{
+  position:absolute;top:11px;left:0;height:2px;width:0%;
+  background:var(--accent);transition:width 1.4s ease;
+}
+.p-node{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;
+  flex:1;
+}
+.p-dot{
+  width:24px;height:24px;border-radius:50%;background:var(--bg);
+  border:2px solid var(--line-bright);z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:10px;color:var(--text-faint);
+  transition:.4s;
+}
+.p-node.lit .p-dot{border-color:var(--accent);background:var(--accent);color:#0a0e16;}
+.p-node span.step-label{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--text-dim);}
+.p-node.lit span.step-label{color:var(--text);}
 
+
+.fac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
 .fac{
-background:#f5f5f5;
-padding:20px;
-border-radius:8px;
+  background:var(--bg-card);border:1px solid var(--line);border-radius:10px;
+  padding:22px;position:relative;overflow:hidden;
+}
+.fac .code{
+  font-family:var(--font-mono);font-size:11px;color:var(--accent);
+  letter-spacing:.08em;display:block;margin-bottom:10px;
+}
+.fac .name{font-size:15.5px;font-weight:600;}
+.fac::after{
+  content:"";position:absolute;right:-20px;top:-20px;width:70px;height:70px;
+  border-radius:50%;background:radial-gradient(circle, rgba(255,122,61,0.12), transparent 70%);
 }
 
 .community{
-background:#ff7a00;
-color:white;
-text-align:center;
+  background:linear-gradient(135deg, #14191f, #0d1116);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
 }
+.community-inner{
+  max-width:760px;margin:auto;text-align:center;
+}
+.community-inner .eyebrow{justify-content:center;margin-bottom:18px;}
+.community-inner p.lead{
+  font-family:var(--font-display);font-size:24px;line-height:1.5;color:var(--text);
+}
+.community-inner p.lead span{color:var(--accent);}
+
+.contact-wrap{display:flex;gap:60px;flex-wrap:wrap;}
+.contact-info{flex:1;min-width:260px;}
+.contact-info p{color:var(--text-dim);margin-bottom:24px;}
+.info-line{
+  font-family:var(--font-mono);font-size:13px;color:var(--text-dim);
+  display:flex;gap:10px;margin-bottom:10px;
+}
+.info-line strong{color:var(--text);min-width:70px;display:inline-block;}
 
 form{
-max-width:420px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:12px;
+  flex:1;min-width:320px;display:flex;flex-direction:column;gap:16px;
+}
+.field{position:relative;}
+.field input, .field textarea{
+  width:100%;padding:14px 14px 14px 14px;border-radius:7px;
+  border:1px solid var(--line-bright);background:var(--bg-card);
+  color:var(--text);font-family:var(--font-body);font-size:14.5px;
+  outline:none;transition:border-color .2s;
+}
+.field input:focus, .field textarea:focus{border-color:var(--accent);}
+.field label{
+  position:absolute;left:14px;top:14px;color:var(--text-faint);font-size:14.5px;
+  pointer-events:none;transition:.18s ease;background:var(--bg-card);padding:0 4px;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label{
+  top:-9px;font-size:11.5px;color:var(--accent);
+}
+.field .err{
+  display:none;color:#ff6b6b;font-family:var(--font-mono);font-size:11.5px;margin-top:6px;
+}
+.field.invalid input, .field.invalid textarea{border-color:#ff6b6b;}
+.field.invalid .err{display:block;}
+
+.phone-row{display:flex;gap:10px;}
+.phone-row .code-box{
+  font-family:var(--font-mono);font-size:14px;color:var(--text-dim);
+  border:1px solid var(--line-bright);border-radius:7px;
+  padding:14px 12px;background:var(--bg-card);white-space:nowrap;
 }
 
-input,textarea{
-padding:12px;
-border-radius:6px;
-border:1px solid #ccc;
+button[type=submit]{
+  background:var(--accent);color:#0a0e16;border:none;border-radius:7px;
+  padding:15px;font-weight:600;font-size:14.5px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .2s, opacity .2s;
 }
-
-.phone{
-display:flex;
+button[type=submit]:hover{transform:translateY(-2px);}
+button[type=submit]:disabled{opacity:.7;cursor:default;transform:none;}
+.spinner{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid rgba(10,14,22,0.3);border-top-color:#0a0e16;
+  animation:spin .7s linear infinite;display:none;
 }
-
-.phone span{
-background:#eee;
-padding:12px;
-border:1px solid #ccc;
-border-right:none;
+.submitting .spinner{display:inline-block;}
+.form-success{
+  display:none;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-size:13px;color:var(--signal);
+  border:1px solid rgba(61,220,151,0.3);background:var(--signal-soft);
+  padding:12px 14px;border-radius:7px;
 }
-
-button{
-background:#ff7a00;
-border:none;
-padding:12px;
-color:white;
-}
-
-.summary{
-background:#111;
-color:white;
-padding:30px;
-border-radius:8px;
-margin-top:30px;
-}
+.form-success.show{display:flex;}
 
 footer{
-text-align:center;
-padding:20px;
+  text-align:center;padding:30px;color:var(--text-faint);
+  font-family:var(--font-mono);font-size:12px;border-top:1px solid var(--line);
 }
 
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+  
+@media(max-width:900px){
+  .hero-inner{flex-direction:column;}
+  .radar-panel{width:100%;flex:none;}
+  .cards{grid-template-columns:1fr 1fr;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+  .stat-cell:nth-child(2){border-right:none;}
+}
 @media(max-width:768px){
-
-.about{
-flex-direction:column;
+  nav ul{
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--bg-elevated);border-bottom:1px solid var(--line);
+    flex-direction:column;align-items:flex-start;padding:20px 8%;gap:18px;
+    display:none;
+  }
+  nav ul.open{display:flex;}
+  .menu-toggle{display:flex;}
+  .hero-copy h1{font-size:38px;}
+  section{padding:70px 6%;}
+  .about{flex-direction:column;}
+  .cards{grid-template-columns:1fr;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+  .contact-wrap{flex-direction:column;}
+  .pipeline-track span.step-label{font-size:11px;}
 }
 
-.hero h1{
-font-size:32px;
-}
-
-nav ul{
-display:none;
-}
-
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important;}
 }
 </style>
-
 </head>
 <body>
-<div class="wrapper">
-<header>
-<nav>
-<div class="logo">
-<div class="cube"></div>
-Institute of Digital Risk
-</div>
 
-<ul>
-<li><a href="#about">About</a></li>
-<li><a href="#model">Model</a></li>
-<li><a href="#facilities">Facilities</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
+<header>
+  <nav class="wrapper">
+    <div class="logo">
+      <div class="radar-mark"><span></span></div>
+      Institute of Digital Risk
+    </div>
+    <ul id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#facilities">Facilities</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Register Interest</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 </header>
 
 <section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">Digital &amp; Cyber Risk Institute</span>
+      <h1>Trained for risk.<br><span class="accent">Ready for reality.</span></h1>
+      <div class="typewriter-line"><span id="typewriter"></span><span class="cursor"></span></div>
+      <p>We train, upskill and deploy digital risk practitioners for regulated industries — built on academic rigor and live industry casework.</p>
+      <div class="hero-actions">
+        <a href="#model" class="btn btn-primary">Explore Programs</a>
+        <a href="#contact" class="btn btn-ghost">Register Interest</a>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track" id="marqueeTrack">
+          <span>NIST CSF</span><span>ISO 27001</span><span>DORA</span><span>SOC 2</span><span>GDPR</span><span>FCA / PRA</span><span>NIST CSF</span><span>ISO 27001</span><span>DORA</span><span>SOC 2</span><span>GDPR</span><span>FCA / PRA</span>
+        </div>
+      </div>
+    </div>
 
-<div>
-
-<h1>Advancing the Future of Digital Risk</h1>
-
-<p style="font-size:22px;">
-The Institute of Digital Risk trains and deploys digital risk practitioners combining academic research with real-world industry expertise.
-</p>
-
-<a href="#model" class="btn">Explore Programs</a>
-
-</div>
-
+    <div class="radar-panel">
+      <div class="panel-head">
+        <span>Risk Monitor</span>
+        <span class="live">Live</span>
+      </div>
+      <div class="radar-scope">
+        <div class="radar-sweep"></div>
+        <div class="blip" style="top:30%;left:62%;animation-delay:0s;"></div>
+        <div class="blip" style="top:55%;left:25%;animation-delay:.7s;"></div>
+        <div class="blip" style="top:70%;left:68%;animation-delay:1.4s;"></div>
+        <div class="blip" style="top:22%;left:38%;animation-delay:2s;"></div>
+      </div>
+      <div class="panel-stats">
+        <div class="panel-stat">
+          <div class="num" id="liveIncidents">0</div>
+          <div class="lbl">Scenarios logged</div>
+        </div>
+        <div class="panel-stat">
+          <div class="num" id="liveTrainees">0</div>
+          <div class="lbl">Trainees active</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="stats-bar">
+  <div class="stat-cell"><div class="count" data-target="500">0</div><div class="label">Professionals trained</div></div>
+  <div class="stat-cell"><div class="count" data-target="40">0</div><div class="label">Industry partners</div></div>
+  <div class="stat-cell"><div class="count" data-target="98">0</div><div class="label">Placement rate %</div></div>
+  <div class="stat-cell"><div class="count" data-target="24" data-suffix="/7">0</div><div class="label">Monitoring labs</div></div>
+</div>
+
 <section id="about">
+  <div class="section-kicker">
+    <div>
+      <span class="eyebrow">About IDR</span>
+      <h2 class="section-title">An industry-led institute, not a classroom</h2>
+    </div>
+    <p>We sit between universities and employers — translating academic frameworks into deployable, audit-ready risk talent.</p>
+  </div>
 
-<h2>About IDR</h2>
-
-<div class="about">
-
-<img src="https://images.unsplash.com/photo-1563986768609-322da13575f3">
-
-<div>
-
-<p>
-The Institute of Digital Risk (IDR) is an industry-led training and deployment institute focused on digital, cyber and technology risk roles in regulated environments.
-</p>
-
-<p>
-IDR collaborates with UK universities and industry partners to combine academic insight with real-world digital risk projects.
-</p>
-
-</div>
-
-</div>
-
+  <div class="about">
+    <div class="about-media reveal">
+      <div class="frame-corner fc-tl"></div>
+      <div class="frame-corner fc-br"></div>
+      <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3" alt="Risk operations training">
+    </div>
+    <div class="about-copy reveal">
+      <p>The <strong>Institute of Digital Risk (IDR)</strong> is an industry-led training and deployment institute focused on digital, cyber and technology risk roles in regulated environments.</p>
+      <p>We collaborate with UK universities and industry partners to combine academic insight with real-world digital risk projects — so every graduate has handled live casework before their first day on the job.</p>
+      <p>Our practitioners go on to roles across <strong>financial services, critical infrastructure and regulated technology</strong> — built to operate from day one, not ramp up over a year.</p>
+    </div>
+  </div>
 </section>
 
 <section id="model">
+  <div class="section-kicker">
+    <div>
+      <span class="eyebrow">Our Model</span>
+      <h2 class="section-title">Three functions, one pipeline</h2>
+    </div>
+    <p>Training, research and advisory work feed each other — case material from real engagements goes straight back into the curriculum.</p>
+  </div>
 
-<h2>Our Model</h2>
+  <div class="cards">
+    <div class="card reveal">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 7l9 4 9-4-9-4Z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+      </div>
+      <h3>Academy</h3>
+      <p>Intensive training bootcamps for digital risk professionals, built around real regulatory casework and simulated incidents.</p>
+    </div>
+    <div class="card reveal">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3>Innovation</h3>
+      <p>Developing AI governance frameworks and applied risk models alongside academic and enterprise research partners.</p>
+    </div>
+    <div class="card reveal">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+      </div>
+      <h3>Advisory</h3>
+      <p>Helping organisations implement frameworks like NIST CSF and ISO 27001 — from gap assessment through to certification.</p>
+    </div>
+  </div>
 
-<div class="cards">
-
-<div class="card">
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-<h3>Academy</h3>
-<p>Training bootcamps for digital risk professionals.</p>
-</div>
-
-<div class="card">
-<img src="https://cdn-icons-png.flaticon.com/512/2721/2721297.png">
-<h3>Innovation</h3>
-<p>Developing AI governance frameworks and risk models.</p>
-</div>
-
-<div class="card">
-<img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png">
-<h3>Advisory</h3>
-<p>Helping organisations implement frameworks like NIST and ISO 27001.</p>
-</div>
-
-</div>
-
-<div class="pipeline">
-
-<div class="step">Train</div>
-<div class="step">Hire</div>
-<div class="step">Innovate</div>
-<div class="step">Deploy</div>
-
-</div>
-
+  <div class="pipeline-wrap reveal" id="pipelineWrap">
+    <div class="pipeline-track">
+      <div class="pipeline-fill" id="pipelineFill"></div>
+      <div class="p-node" data-step="0"><div class="p-dot">01</div><span class="step-label">Train</span></div>
+      <div class="p-node" data-step="1"><div class="p-dot">02</div><span class="step-label">Hire</span></div>
+      <div class="p-node" data-step="2"><div class="p-dot">03</div><span class="step-label">Innovate</span></div>
+      <div class="p-node" data-step="3"><div class="p-dot">04</div><span class="step-label">Deploy</span></div>
+    </div>
+  </div>
 </section>
 
 <section id="facilities">
+  <div class="section-kicker">
+    <div>
+      <span class="eyebrow">Facilities</span>
+      <h2 class="section-title">Built like the environments we train for</h2>
+    </div>
+    <p>Each facility is logged like an audit asset register — because that's the discipline we teach.</p>
+  </div>
 
-<h2>Facilities</h2>
-
-<div class="fac-grid">
-
-<div class="fac">Cyber Risk Training Labs</div>
-<div class="fac">AI Governance Research</div>
-<div class="fac">Industry Mentorship</div>
-<div class="fac">Risk Simulation Labs</div>
-<div class="fac">Career Deployment Programs</div>
-
-</div>
-
+  <div class="fac-grid">
+    <div class="fac reveal"><span class="code">LAB-01</span><span class="name">Cyber Risk Training Labs</span></div>
+    <div class="fac reveal"><span class="code">LAB-02</span><span class="name">AI Governance Research</span></div>
+    <div class="fac reveal"><span class="code">MEN-01</span><span class="name">Industry Mentorship</span></div>
+    <div class="fac reveal"><span class="code">SIM-01</span><span class="name">Risk Simulation Labs</span></div>
+    <div class="fac reveal"><span class="code">DEP-01</span><span class="name">Career Deployment Programs</span></div>
+  </div>
 </section>
 
-
 <section class="community">
-
-<h2>Community</h2>
-
-<p>
-Students, early-career professionals and practitioners across financial services and critical infrastructure seeking upskilling in digital and cyber risk.
-</p>
-
+  <div class="community-inner reveal">
+    <span class="eyebrow">Community</span>
+    <p class="lead">Students, early-career professionals and practitioners across <span>financial services</span> and <span>critical infrastructure</span> seeking upskilling in digital and cyber risk.</p>
+  </div>
 </section>
 
 <section id="contact">
+  <div class="section-kicker">
+    <div>
+      <span class="eyebrow">Register Interest</span>
+      <h2 class="section-title">Tell us where you're headed</h2>
+    </div>
+    <p>We respond to every enquiry within two working days.</p>
+  </div>
 
-<h2>Register Interest</h2>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <p>Whether you're hiring, training, or exploring a career move into digital risk — start here and a member of the team will reach out.</p>
+      <div class="info-line"><strong>Email</strong> hello@instituteofdigitalrisk.org</div>
+      <div class="info-line"><strong>Based</strong> United Kingdom</div>
+      <div class="info-line"><strong>Hours</strong> Mon–Fri, 09:00–18:00 GMT</div>
+    </div>
 
-<form>
+    <form id="contactForm" class="reveal" novalidate>
+      <div class="field" id="fName">
+        <input type="text" placeholder=" " required>
+        <label>Name</label>
+        <div class="err">Please enter your name.</div>
+      </div>
 
-<input type="text" placeholder="Name" required>
+      <div class="field" id="fEmail">
+        <input type="email" placeholder=" " required>
+        <label>Email</label>
+        <div class="err">Please enter a valid email address.</div>
+      </div>
 
-<input type="email" placeholder="Email" required>
+      <div class="phone-row">
+        <span class="code-box">🇮🇳 +91</span>
+        <div class="field" style="flex:1;">
+          <input type="text" placeholder=" ">
+          <label>Phone Number</label>
+        </div>
+      </div>
 
-<div class="phone">
+      <div class="field" id="fMessage">
+        <textarea rows="4" placeholder=" " required></textarea>
+        <label>Message</label>
+        <div class="err">Tell us a little about what you're looking for.</div>
+      </div>
 
-<span>🇮🇳 +91</span>
+      <button type="submit">
+        <span class="spinner"></span>
+        <span class="btn-text">Submit</span>
+      </button>
 
-<input type="text" placeholder="Phone Number">
-
-</div>
-
-<textarea rows="4" placeholder="Message"></textarea>
-
-<button type="submit">Submit</button>
-
-</form>
+      <div class="form-success" id="formSuccess">✓ Message logged — we'll be in touch within two working days.</div>
+    </form>
+  </div>
 </section>
 
 <footer>
-© 2026 Institute of Digital Risk
-
+  © <span id="year"></span> Institute of Digital Risk
 </footer>
 
-</div>
+<script>
+
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+const sections = document.querySelectorAll('section[id]');
+const navAnchors = document.querySelectorAll('nav ul a[href^="#"]');
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navAnchors.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+sections.forEach(s => spyObserver.observe(s));
+const lines = [
+  "> scanning regulatory landscape...",
+  "> mapping NIST CSF control gaps...",
+  "> simulating live incident response...",
+  "> deploying trained risk analysts..."
+];
+let lineIndex = 0, charIndex = 0, deleting = false;
+const twEl = document.getElementById('typewriter');
+function typeLoop(){
+  const current = lines[lineIndex];
+  if (!deleting) {
+    twEl.textContent = current.slice(0, charIndex + 1);
+    charIndex++;
+    if (charIndex === current.length) { deleting = true; setTimeout(typeLoop, 1400); return; }
+  } else {
+    twEl.textContent = current.slice(0, charIndex - 1);
+    charIndex--;
+    if (charIndex === 0) { deleting = false; lineIndex = (lineIndex + 1) % lines.length; }
+  }
+  setTimeout(typeLoop, deleting ? 28 : 42);
+}
+typeLoop();
+let incidents = 1280, trainees = 64;
+const incEl = document.getElementById('liveIncidents');
+const traEl = document.getElementById('liveTrainees');
+function animateTo(el, target){
+  let current = parseInt(el.textContent) || 0;
+  const step = () => {
+    if (current < target) { current += Math.ceil((target - current) / 8) || 1; el.textContent = current; requestAnimationFrame(step); }
+    else { el.textContent = target; }
+  };
+  step();
+}
+animateTo(incEl, incidents);
+animateTo(traEl, trainees);
+setInterval(() => {
+  incidents += Math.floor(Math.random() * 3);
+  if (Math.random() > 0.6) trainees += (Math.random() > 0.5 ? 1 : -1);
+  trainees = Math.max(40, trainees);
+  animateTo(incEl, incidents);
+  animateTo(traEl, trainees);
+}, 3200);
+
+const counters = document.querySelectorAll('.stats-bar .count');
+const counterObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      const suffix = el.dataset.suffix || '';
+      let current = 0;
+      const duration = 1200;
+      const startTime = performance.now();
+      function tick(now){
+        const progress = Math.min((now - startTime) / duration, 1);
+        current = Math.floor(progress * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target + suffix;
+      }
+      requestAnimationFrame(tick);
+      obs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+const revealObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+const pipelineWrap = document.getElementById('pipelineWrap');
+const pipelineFill = document.getElementById('pipelineFill');
+const pipelineNodes = document.querySelectorAll('.p-node');
+const pipelineObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      pipelineFill.style.width = '100%';
+      pipelineNodes.forEach((node, i) => {
+        setTimeout(() => node.classList.add('lit'), i * 350);
+      });
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+pipelineObserver.observe(pipelineWrap);
+const form = document.getElementById('contactForm');
+const successBox = document.getElementById('formSuccess');
+
+function validateField(wrapper, isValid){
+  wrapper.classList.toggle('invalid', !isValid);
+  return isValid;
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  successBox.classList.remove('show');
+
+  const nameWrap = document.getElementById('fName');
+  const emailWrap = document.getElementById('fEmail');
+  const msgWrap = document.getElementById('fMessage');
+
+  const nameInput = nameWrap.querySelector('input');
+  const emailInput = emailWrap.querySelector('input');
+  const msgInput = msgWrap.querySelector('textarea');
+
+  const nameValid = nameInput.value.trim().length > 1;
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+  const msgValid = msgInput.value.trim().length > 4;
+
+  const allValid = [
+    validateField(nameWrap, nameValid),
+    validateField(emailWrap, emailValid),
+    validateField(msgWrap, msgValid)
+  ].every(Boolean);
+
+  if (!allValid) return;
+
+  const btn = form.querySelector('button[type=submit]');
+  const btnText = btn.querySelector('.btn-text');
+  btn.disabled = true;
+  btn.classList.add('submitting');
+  btnText.textContent = 'Submitting...';
+
+  setTimeout(() => {
+    btn.classList.remove('submitting');
+    btnText.textContent = 'Submit';
+    btn.disabled = false;
+    successBox.classList.add('show');
+    form.reset();
+    [nameWrap, emailWrap, msgWrap].forEach(w => w.classList.remove('invalid'));
+  }, 1100);
+});
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
